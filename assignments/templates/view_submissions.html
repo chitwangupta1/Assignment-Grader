@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submissions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Submissions for "{{ assignment.title }}"</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Student</th>
+            <th>Submission</th>
+            <th>Submitted At</th>
+            <th>Score</th>
+            {% if is_student %}
+                <th>Feedback</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.student.get_full_name }}</td>
+                <td><a href="{{ submission.submitted_file.url }}" download>📥 Download</a></td>
+                <td>{{ submission.submitted_at }}</td>
+                <td>
+                    {% if submission.graded %}
+                        {{ submission.grade }} / {{ total_marks }}
+                    {% else %}
+                        Not graded yet
+                    {% endif %}
+                </td>
+                {% comment %} {% if is_student %}
+                    <td>
+                        {% if submission.graded %}
+                            {{ submission.feedback }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endif %} {% endcomment %}
+                <a href="{% url 'assignments:edit_submission_marks' submission.id %}" class="btn btn-warning btn-sm">✏️ Edit Marks</a>
+
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{% if is_student %}5{% else %}4{% endif %}">No submissions yet.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{% url 'accounts:teacher_dashboard' %}">Back to Dashboard</a>
+</div>
+</body>
+</html>

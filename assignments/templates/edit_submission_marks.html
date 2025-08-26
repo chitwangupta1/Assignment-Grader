@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Submission Marks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        td input, td textarea {
+            width: 95%;
+            padding: 6px;
+            font-size: 0.95em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        td textarea {
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.95em;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            td input, td textarea {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Submission Marks – {{ submission.student.username }} |
+            {{ submission.assignment.title }}</h2>
+    
+        <form method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+    
+            <table>
+                <thead>
+                    <tr><th>Q#</th><th>Max</th><th>Obtained</th><th>Feedback</th></tr>
+                </thead>
+                <tbody>
+                {% for form in formset %}
+                    <tr>
+                        <!-- ① Show read-only values -->
+                        <td>
+                            {{ form.instance.question_number }}
+                            {{ form.id }}
+                            {{ form.question_number.as_hidden }}
+                        </td>
+                        <td>
+                            {{ form.instance.max_marks }}
+                            {{ form.id }}
+                            {{ form.max_marks.as_hidden }}
+                        </td>
+    
+                        <!-- ② Editable fields -->
+                        <td>{{ form.obtained_marks }}</td>
+                        {{ form.id }}
+                        <td>{{ form.feedback }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                <a href="{% url 'accounts:classroom_detail'
+                              submission.assignment.classroom.id %}"
+                   class="btn btn-secondary">↩ Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

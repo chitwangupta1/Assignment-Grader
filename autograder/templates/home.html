@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AutoGrader Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .description {
+            margin: 20px auto;
+            max-width: 700px;
+            font-size: 18px;
+            color: #34495e;
+        }
+        .btn-group {
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #3498db;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the AutoGrader Portal</h1>
+
+    <div class="description">
+        <p>
+            The AutoGrader platform helps teachers automatically evaluate student assignment submissions by comparing them
+            with the provided correct answers. It supports student uploads, teacher reviews, and role-based dashboards.
+        </p>
+        <p>
+            Choose your role and get started by logging in or signing up.
+        </p>
+    </div>
+
+    <div class="btn-group">
+        <a href="{% url 'role_login' %}" class="btn">Login</a>
+        <a href="/accounts/signup/" class="btn">Sign Up</a>  <!-- Update this if you implement signup -->
+    </div>
+
+</body>
+</html>

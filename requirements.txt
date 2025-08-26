@@ -1,4 +1,6 @@
 Django>=5.0
+djangorestframework>=3.15.0
+
 langchain-google-genai>=0.0.12
 PyMuPDF>=1.24.0   # for fitz (PDF processing)
 torch>=2.2.0      # since you had torch imports earlier
@@ -6,4 +8,5 @@ transformers>=4.40.0  # required for tokenizer/model usage
 peft>=0.11.0      # used in your chatbot code
 kagglehub>=0.2.0  # since you imported it
 google-generativeai>=0.5.0  # for genai integration
+
 gunicorn>=21.2.0  # for running Django in production

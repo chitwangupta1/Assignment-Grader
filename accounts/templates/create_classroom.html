@@ -1,0 +1,73 @@
+<!-- templates/accounts/create_classroom.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Classroom</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 30px; }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        label { font-weight: bold; }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Create a New Classroom</h2>
+    <form method="POST">
+        {% csrf_token %}
+    
+        <label for="{{ form.name.id_for_label }}">Name:</label>
+        {{ form.name }}
+    
+        <label for="{{ form.subject.id_for_label }}">Subject (Choose from your subjects):</label>
+        {{ form.subject }}
+    
+        <label for="{{ form.subject_name.id_for_label }}">Subject name:</label>
+        {{ form.subject_name }}
+    
+        <label for="{{ form.subject_code.id_for_label }}">Subject code:</label>
+        {{ form.subject_code }}
+    
+        <label for="{{ form.branch.id_for_label }}">Branch:</label>
+        {{ form.branch }}
+    
+        <label for="{{ form.batch.id_for_label }}">Batch:</label>
+        {{ form.batch }}
+    
+        <button type="submit">Create Classroom</button>
+    </form>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+{% comment %} {% load dict_filters %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h4 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        ul.list-group {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-group-item {
+            background-color: #fafafa;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-group-item strong {
+            font-size: 1.1em;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .text-muted {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .text-success {
+            color: #28a745;
+        }
+
+        .edit-profile-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin: 20px;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: #45a049;
+        }
+
+        .feedback-table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+
+        .feedback-table th,
+        .feedback-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .feedback-table th {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            .list-group-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .list-group-item .btn {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .feedback-table th,
+            .feedback-table td {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📘 Student Dashboard</h2>
+
+    <!-- Pending Assignments -->
+    <div class="section">
+        <h4>⏳ Pending Assignments</h4>
+        {% if pending_assignments %}
+            <ul class="list-group">
+                {% for assignment in pending_assignments %}
+                    <li class="list-group-item">
+                        <div>
+                            <strong>{{ assignment.title }}</strong><br>
+                            Deadline: {{ assignment.deadline|date:"M d, Y H:i" }}
+                        </div>
+                        <a href="{% url 'assignments:submit_assignment' assignment.id %}" class="btn">Submit</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">🎉 No pending assignments!</p>
+        {% endif %}
+    </div>
+
+    <!-- Submitted Assignments -->
+    <div class="section">
+        <h4>📤 Submitted Assignments</h4>
+        {% if submitted_assignments %}
+            <ul class="list-group">
+                {% for submission in submitted_assignments %}
+                    <li class="list-group-item">
+                        <div>
+                            <strong>{{ submission.assignment.title }}</strong><br>
+                            Submitted at: {{ submission.submitted_at|date:"M d, Y H:i" }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No submitted assignments waiting for grading.</p>
+        {% endif %}
+    </div>
+
+    <!-- Graded Assignments -->
+    <div class="section">
+        <h4>✅ Graded Assignments</h4>
+        {% if graded_assignments %}
+            <ul class="list-group">
+                {% for submission in graded_assignments %}
+                    <li class="list-group-item">
+                        <div>
+                            <strong>{{ submission.assignment.title }}</strong><br>
+                            Score: {{ submission.total_obtained|floatformat:0 }} / {{ submission.assignment.total_marks|floatformat:0 }}
+                        </div>
+
+                        {% comment %} {% if submission.feedback %}
+                            <div>
+                                <strong>General Feedback:</strong>
+                                <p style="margin: 5px 0 0;">{{ submission.feedback }}</p>
+                            </div>
+                        {% endif %} {% endcomment %}
+
+                        {% if submission.question_feedback.all %}
+                            <div style="margin-top: 10px;">
+                                <strong>Per-Question Feedback:</strong>
+                                <table class="feedback-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Question No.</th>
+                                            <th>Marks</th>
+                                            <th>Feedback</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for q in submission.question_feedback.all %}
+                                            <tr>
+                                                <td>{{ q.question_number }}</td>
+                                                <td>{{ q.obtained_marks }} / {{ q.max_marks }}</td>
+                                                <td>{{ q.feedback }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No graded assignments yet.</p>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'accounts:update_student_profile' %}" class="edit-profile-btn">Edit Profile</a>
+
+    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" 
+        style="background-color:#dc3545; 
+               color:white; 
+               border:none; 
+               padding:8px 16px; 
+               border-radius:6px; 
+               font-weight:bold; 
+               cursor:pointer;"
+        onmouseover="this.style.backgroundColor='#c82333'" 
+        onmouseout="this.style.backgroundColor='#dc3545'">
+        Logout
+    </button>
+</form>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!-- templates/accounts/signup_teacher.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Teacher Profile</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #eef2f7; padding: 30px; }
+        .form-container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        label {
+            font-weight: bold;
+        }
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul.errorlist {
+            color: red;
+            list-style: none;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Update Teacher Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+</div>
+</body>
+</html>

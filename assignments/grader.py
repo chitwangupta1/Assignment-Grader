@@ -136,7 +136,8 @@ def main():
 
     # llm = ChatGoogleGenerativeAI(model='models/gemini-2.0-flash-thinking-exp')
     
-    genai.configure(api_key=GOOGLE_API_KEY)
+    API_KEY = os.getenv("GOOGLE_API_KEY")
+    genai.configure(api_key=API_KEY)
     
     model = genai.GenerativeModel("gemini-2.0-flash")
     response = model.generate_content(prompt)
@@ -174,4 +175,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 

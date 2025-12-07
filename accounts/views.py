@@ -11,7 +11,7 @@ from .models import Subject, Classroom, Teacher
 from assignments.models import Assignment, StudentSubmission
 from assignments.grader import extract_text_from_pdf, parse_question_bank, grade_answer
 # from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
-
+import google.generativeai as genai
 
 
 from assignments.models import Assignment, StudentSubmission, QuestionFeedback
@@ -73,11 +73,9 @@ def grade_all_submissions(request, assignment_id):
     teacher_text = extract_text_from_pdf(assignment.question_solution_file.path)
     teacher_data = parse_question_bank(teacher_text)
 
-    # Gemini model (flash) – init once
-    model = ChatGoogleGenerativeAI(
-    model="models/gemini-2.0-flash-thinking-exp",
-    google_api_key=os.getenv("GOOGLE_API_KEY")
-)
+    genai.configure(api_key=GOOGLE_API_KEY)
+
+    model = genai.GenerativeModel("gemini-2.0-flash-thinking-exp")
 
 
     # ───────────────────────────────────────────────────────────────
@@ -439,5 +437,6 @@ def student_dashboard(request):
         # so you no longer need a separate total_marks dict
     }
     return render(request, "student_dashboard.html", context)
+
 
 

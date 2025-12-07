@@ -111,7 +111,8 @@ def grade_answer(teacher_ans, student_ans, marks, model, is_objective=False):
     """
 
     try:
-        response = model.invoke(prompt)
+        response = model.generate_content(prompt)
+        # response = model.invoke(prompt)
         raw = response.content.strip()
         score_line = raw.split('\n')[0]
         feedback = '\n'.join(raw.split('\n')[1:])
@@ -141,7 +142,7 @@ def main():
     genai.configure(api_key=API_KEY)
     
     model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content(prompt)
+    # response = model.generate_content(prompt)
 
     total_score = 0.0
     total_marks = 0
@@ -176,6 +177,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

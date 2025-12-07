@@ -73,7 +73,8 @@ def grade_all_submissions(request, assignment_id):
     teacher_text = extract_text_from_pdf(assignment.question_solution_file.path)
     teacher_data = parse_question_bank(teacher_text)
 
-    genai.configure(api_key=GOOGLE_API_KEY)
+    API_KEY = os.getenv("GOOGLE_API_KEY")
+    genai.configure(api_key=API_KEY)
 
     model = genai.GenerativeModel("gemini-2.0-flash-thinking-exp")
 
@@ -437,6 +438,7 @@ def student_dashboard(request):
         # so you no longer need a separate total_marks dict
     }
     return render(request, "student_dashboard.html", context)
+
 
 
 

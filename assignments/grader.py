@@ -113,7 +113,7 @@ def grade_answer(teacher_ans, student_ans, marks, model, is_objective=False):
     try:
         response = model.generate_content(prompt)
         # response = model.invoke(prompt)
-        raw = response.content.strip()
+        raw = response.text.strip()
         score_line = raw.split('\n')[0]
         feedback = '\n'.join(raw.split('\n')[1:])
         score = float(score_line.strip())
@@ -177,6 +177,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

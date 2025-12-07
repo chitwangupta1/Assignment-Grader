@@ -74,7 +74,7 @@ def grade_all_submissions(request, assignment_id):
     API_KEY = os.getenv("GOOGLE_API_KEY")
     genai.configure(api_key=API_KEY)
 
-    model = genai.GenerativeModel("gemini-2.0-flash-thinking-exp")
+    model = genai.GenerativeModel("gemini-2.0-flash")
 
 
     # ───────────────────────────────────────────────────────────────
@@ -436,6 +436,7 @@ def student_dashboard(request):
         # so you no longer need a separate total_marks dict
     }
     return render(request, "student_dashboard.html", context)
+
 
 
 

@@ -6,6 +6,7 @@ from accounts.models import Classroom
 from assignments.grader import extract_text_from_pdf, parse_question_bank, grade_answer
 from accounts.views import calculate_total_marks   # ← your helper
 from django.http import HttpResponseForbidden
+import os
 
 @login_required
 def edit_submission_marks(request, submission_id):
@@ -132,3 +133,4 @@ def calculate_total_marks(assignment):
     except Exception as e:
         print(f"Error calculating marks: {e}")
         return 0  # Fallback if parsing fails
+

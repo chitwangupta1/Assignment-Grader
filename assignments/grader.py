@@ -2,8 +2,8 @@ import fitz
 import re
 import time
 import random
-from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
-
+# from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+import google.generativeai as genai
 
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
@@ -134,7 +134,13 @@ def main():
     teacher_data = parse_question_bank(teacher_text)
     student_data = parse_question_bank(student_text)
 
-    llm = ChatGoogleGenerativeAI(model='models/gemini-2.0-flash-thinking-exp')
+    # llm = ChatGoogleGenerativeAI(model='models/gemini-2.0-flash-thinking-exp')
+    
+    genai.configure(api_key=GOOGLE_API_KEY)
+    
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    response = model.generate_content(prompt)
+
     total_score = 0.0
     total_marks = 0
 
@@ -168,3 +174,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

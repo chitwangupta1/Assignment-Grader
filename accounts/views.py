@@ -74,7 +74,11 @@ def grade_all_submissions(request, assignment_id):
     teacher_data = parse_question_bank(teacher_text)
 
     # Gemini model (flash) – init once
-    model = ChatGoogleGenerativeAI(model="models/gemini-2.0-flash-thinking-exp")
+    model = ChatGoogleGenerativeAI(
+    model="models/gemini-2.0-flash-thinking-exp",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
+
 
     # ───────────────────────────────────────────────────────────────
     # 2. Loop over every ungraded submission.
@@ -435,3 +439,4 @@ def student_dashboard(request):
         # so you no longer need a separate total_marks dict
     }
     return render(request, "student_dashboard.html", context)
+

@@ -10,7 +10,7 @@ from .forms import AdminUpdateForm, StudentSignUpForm, TeacherUpdateForm, Studen
 from .models import Subject, Classroom, Teacher
 from assignments.models import Assignment, StudentSubmission
 from assignments.grader import extract_text_from_pdf, parse_question_bank, grade_answer
-from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+# from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 
 
 
@@ -439,4 +439,5 @@ def student_dashboard(request):
         # so you no longer need a separate total_marks dict
     }
     return render(request, "student_dashboard.html", context)
+
 

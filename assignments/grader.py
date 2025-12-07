@@ -4,6 +4,7 @@ import time
 import random
 # from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
 import google.generativeai as genai
+import os
 
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
@@ -175,5 +176,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
